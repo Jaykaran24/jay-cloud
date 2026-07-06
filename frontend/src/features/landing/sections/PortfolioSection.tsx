@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { MapPin, ExternalLink, ArrowRight } from "lucide-react";
+import { MapPin, ExternalLink } from "lucide-react";
 
 const skills = [
   "Node.js",
@@ -94,16 +94,15 @@ export default function PortfolioSection() {
 
             {/* CTAs */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
-              <button
-                disabled
-                className="inline-flex cursor-not-allowed items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/60 px-5 py-2.5 text-sm font-medium text-zinc-500 opacity-60"
+              <a
+                href="https://jaykaran24.github.io/JayPortfolio"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-900/30 transition-all duration-200 hover:scale-105 hover:shadow-blue-900/50"
               >
                 View Portfolio
-                <ArrowRight size={14} />
-                <span className="rounded-full border border-zinc-700 px-1.5 py-0.5 text-xs">
-                  Soon
-                </span>
-              </button>
+                <ExternalLink size={14} />
+              </a>
 
               <a
                 href="https://github.com/Jaykaran24"
