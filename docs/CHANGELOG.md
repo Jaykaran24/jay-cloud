@@ -16,6 +16,7 @@ All notable changes to Jay Cloud will be documented in this file.
 ### Changed
 - [2026-07-06] LandingPage: Updated to import and render all sections in correct order (Navbar, Hero, Infrastructure, Features, Projects, Portfolio, Contact, Footer)
 - [2026-07-06] Navbar: Added mobile hamburger menu with AnimatePresence slide-down animation, staggered link reveals, and full mobile Admin Login button
+- [2026-07-06] PortfolioSection: Linked "View Portfolio" button to https://jaykaran24.github.io/JayPortfolio (was disabled with "Coming Soon" state)
 
 ### Fixed
 - [2026-07-06] Footer: Replaced invalid Github lucide-react export with an inline SVG GitHub icon (lucide-react v1.x removed this icon)
