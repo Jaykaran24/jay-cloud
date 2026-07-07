@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Cloud, Menu, X } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Cloud, Menu, X, LayoutDashboard } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/features/auth/context/AuthContext";
 
 const navLinks = [
   { label: "Home", href: "#" },
@@ -12,6 +14,8 @@ const navLinks = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <header className="sticky top-0 z-50 w-full">
@@ -45,9 +49,21 @@ export default function Navbar() {
 
           {/* Right side */}
           <div className="flex items-center gap-3">
-            <Button className="hidden md:inline-flex">Admin Login</Button>
+            {isAuthenticated ? (
+              <Button
+                className="hidden md:inline-flex items-center gap-2"
+                onClick={() => navigate("/dashboard")}
+              >
+                <LayoutDashboard size={15} />
+                Dashboard
+              </Button>
+            ) : (
+              <Link to="/login" className="hidden md:inline-flex">
+                <Button>Admin Login</Button>
+              </Link>
+            )}
 
-            {/* Hamburger — mobile only */}
+            {/* Hamburger mobile only */}
             <button
               onClick={() => setMobileOpen((prev) => !prev)}
               aria-label="Toggle navigation menu"
@@ -84,7 +100,22 @@ export default function Navbar() {
                   </motion.a>
                 ))}
                 <div className="mt-2 border-t border-zinc-800/40 pt-3">
-                  <Button className="w-full">Admin Login</Button>
+                  {isAuthenticated ? (
+                    <Button
+                      className="w-full flex items-center gap-2"
+                      onClick={() => {
+                        setMobileOpen(false);
+                        navigate("/dashboard");
+                      }}
+                    >
+                      <LayoutDashboard size={15} />
+                      Dashboard
+                    </Button>
+                  ) : (
+                    <Link to="/login" onClick={() => setMobileOpen(false)}>
+                      <Button className="w-full">Admin Login</Button>
+                    </Link>
+                  )}
                 </div>
               </div>
             </motion.div>
