@@ -45,13 +45,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#09090b] px-4">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-4">
       {/* Background orb glow */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 flex items-center justify-center"
       >
-        <div className="h-[500px] w-[500px] rounded-full bg-blue-600/10 blur-[120px]" />
+        <div className="h-[500px] w-[500px] rounded-full bg-primary/10 blur-[120px]" />
       </div>
 
       {/* Card */}
@@ -59,7 +59,7 @@ export default function LoginPage() {
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-        className="relative z-10 w-full max-w-md rounded-2xl border border-zinc-800/70 bg-zinc-900/60 p-8 shadow-2xl backdrop-blur-xl"
+        className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-card/60 p-8 shadow-2xl backdrop-blur-xl"
       >
         {/* Logo */}
         <div className="mb-8 flex flex-col items-center gap-3">
@@ -68,17 +68,17 @@ export default function LoginPage() {
               <Cloud size={26} />
             </div>
             <div className="text-left">
-              <h1 className="text-xl font-bold tracking-tight text-white">
+              <h1 className="text-xl font-bold tracking-tight text-foreground">
                 JAY CLOUD
               </h1>
-              <p className="text-xs text-zinc-500">Self Hosted Platform</p>
+              <p className="text-xs text-muted-foreground">Self Hosted Platform</p>
             </div>
           </Link>
           <div className="mt-2 text-center">
-            <h2 className="text-2xl font-bold tracking-tight text-white">
+            <h2 className="text-2xl font-bold tracking-tight text-foreground">
               Welcome back
             </h2>
-            <p className="mt-1 text-sm text-zinc-400">
+            <p className="mt-1 text-sm text-muted-foreground">
               Sign in to your account to continue
             </p>
           </div>
@@ -90,7 +90,7 @@ export default function LoginPage() {
           <div className="space-y-1.5">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-zinc-300"
+              className="block text-sm font-medium text-foreground/85"
             >
               Email address
             </label>
@@ -100,7 +100,7 @@ export default function LoginPage() {
               autoComplete="email"
               placeholder="you@example.com"
               {...register("email")}
-              className="h-11 rounded-xl border-zinc-700/60 bg-zinc-800/60 text-white placeholder:text-zinc-600 focus:border-blue-500/60 focus:ring-blue-500/20"
+              className="h-11 rounded-xl border-input bg-background text-foreground placeholder:text-muted-foreground/60 focus:border-primary/60 focus:ring-primary/20"
               aria-invalid={!!errors.email}
             />
             {errors.email && (
@@ -113,13 +113,13 @@ export default function LoginPage() {
             <div className="flex items-center justify-between">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-zinc-300"
+                className="block text-sm font-medium text-foreground/85"
               >
                 Password
               </label>
               <button
                 type="button"
-                className="text-xs text-zinc-500 transition-colors hover:text-zinc-300"
+                className="text-xs text-muted-foreground transition-colors hover:text-foreground"
               >
                 Forgot password?
               </button>
@@ -131,14 +131,14 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 placeholder="password"
                 {...register("password")}
-                className="h-11 rounded-xl border-zinc-700/60 bg-zinc-800/60 pr-11 text-white placeholder:text-zinc-600 focus:border-blue-500/60 focus:ring-blue-500/20"
+                className="h-11 rounded-xl border-input bg-background text-foreground pr-11 placeholder:text-muted-foreground/60 focus:border-primary/60 focus:ring-primary/20"
                 aria-invalid={!!errors.password}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
                 aria-label={showPassword ? "Hide password" : "Show password"}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 transition-colors hover:text-zinc-300"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
               >
                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>

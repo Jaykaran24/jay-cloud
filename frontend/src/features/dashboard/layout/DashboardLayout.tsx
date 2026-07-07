@@ -64,16 +64,16 @@ export default function DashboardLayout() {
     menuItems.find((item) => isRouteActive(item.path))?.name || "Dashboard";
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 flex">
+    <div className="min-h-screen bg-background text-foreground flex">
       {/* ── DESKTOP SIDEBAR ── */}
-      <aside className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 border-r border-zinc-800/60 bg-zinc-950/80 backdrop-blur-xl z-30">
+      <aside className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 border-r border-sidebar-border bg-sidebar z-30">
         {/* Brand */}
-        <div className="flex h-16 items-center gap-2.5 px-6 border-b border-zinc-800/60">
+        <div className="flex h-16 items-center gap-2.5 px-6 border-b border-sidebar-border">
           <Link to="/" className="flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-violet-600 text-white shadow-md shadow-blue-500/10">
               <Cloud size={19} />
             </div>
-            <span className="font-bold tracking-tight text-white">JAY CLOUD</span>
+            <span className="font-bold tracking-tight text-sidebar-foreground">JAY CLOUD</span>
           </Link>
         </div>
 
@@ -89,14 +89,14 @@ export default function DashboardLayout() {
                 className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 group ${
                   active
                     ? "bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/10"
-                    : "text-zinc-400 hover:bg-zinc-900/60 hover:text-zinc-200"
+                    : "text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                 }`}
               >
                 <div className="flex items-center gap-3">
                   <Icon
                     size={18}
                     className={`transition-colors duration-200 ${
-                      active ? "text-white" : "text-zinc-500 group-hover:text-zinc-400"
+                      active ? "text-white" : "text-sidebar-foreground/50 group-hover:text-sidebar-foreground/75"
                     }`}
                   />
                   <span>{item.name}</span>
@@ -108,11 +108,11 @@ export default function DashboardLayout() {
         </nav>
 
         {/* User Info & Logout Footer */}
-        <div className="p-4 border-t border-zinc-800/60 bg-zinc-950/40">
+        <div className="p-4 border-t border-sidebar-border bg-sidebar">
           <div className="flex items-center justify-between gap-3 mb-3 px-2">
             <div className="min-w-0">
-              <p className="text-xs font-semibold text-zinc-300 truncate">{user?.name || "Admin"}</p>
-              <p className="text-[10px] text-zinc-500 truncate">{user?.email}</p>
+              <p className="text-xs font-semibold text-sidebar-foreground truncate">{user?.name || "Admin"}</p>
+              <p className="text-[10px] text-sidebar-foreground/60 truncate">{user?.email}</p>
             </div>
             <span className="shrink-0 rounded-full bg-blue-500/10 px-2 py-0.5 text-[10px] font-semibold text-blue-400 uppercase">
               {user?.role}
@@ -120,7 +120,7 @@ export default function DashboardLayout() {
           </div>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-zinc-800 hover:border-red-500/30 bg-zinc-900/40 text-zinc-400 hover:text-red-400 hover:bg-red-500/5 transition-all text-xs font-medium"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-sidebar-border hover:border-red-500/30 bg-sidebar text-sidebar-foreground/75 hover:text-red-500 hover:bg-red-500/5 transition-all text-xs font-medium"
           >
             <LogOut size={14} />
             Sign Out
@@ -138,23 +138,23 @@ export default function DashboardLayout() {
           />
 
           {/* Drawer content */}
-          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-zinc-950 border-r border-zinc-800/60 animate-in slide-in-from-left duration-250">
+          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-sidebar border-r border-sidebar-border animate-in slide-in-from-left duration-250">
             {/* Close button */}
             <div className="absolute top-4 right-4">
               <button
                 onClick={() => setIsMobileOpen(false)}
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-sidebar-border bg-sidebar text-sidebar-foreground/70 hover:text-sidebar-foreground"
               >
                 <X size={18} />
               </button>
             </div>
 
             {/* Brand */}
-            <div className="flex h-16 items-center gap-2.5 px-6 border-b border-zinc-800/60">
+            <div className="flex h-16 items-center gap-2.5 px-6 border-b border-sidebar-border">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-violet-600 text-white">
                 <Cloud size={19} />
               </div>
-              <span className="font-bold tracking-tight text-white">JAY CLOUD</span>
+              <span className="font-bold tracking-tight text-sidebar-foreground">JAY CLOUD</span>
             </div>
 
             {/* Navigation */}
@@ -170,14 +170,14 @@ export default function DashboardLayout() {
                     className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 group ${
                       active
                         ? "bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/10"
-                        : "text-zinc-400 hover:bg-zinc-900/60 hover:text-zinc-200"
+                        : "text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <Icon
                         size={18}
                         className={`transition-colors duration-200 ${
-                          active ? "text-white" : "text-zinc-500 group-hover:text-zinc-400"
+                          active ? "text-white" : "text-sidebar-foreground/50 group-hover:text-sidebar-foreground/75"
                         }`}
                       />
                       <span>{item.name}</span>
@@ -189,11 +189,11 @@ export default function DashboardLayout() {
             </nav>
 
             {/* Footer info & Logout */}
-            <div className="p-4 border-t border-zinc-800/60 bg-zinc-950/40">
+            <div className="p-4 border-t border-sidebar-border bg-sidebar">
               <div className="flex items-center justify-between gap-3 mb-3 px-2">
                 <div className="min-w-0">
-                  <p className="text-xs font-semibold text-zinc-300 truncate">{user?.name || "Admin"}</p>
-                  <p className="text-[10px] text-zinc-500 truncate">{user?.email}</p>
+                  <p className="text-xs font-semibold text-sidebar-foreground truncate">{user?.name || "Admin"}</p>
+                  <p className="text-[10px] text-sidebar-foreground/60 truncate">{user?.email}</p>
                 </div>
                 <span className="shrink-0 rounded-full bg-blue-500/10 px-2 py-0.5 text-[10px] font-semibold text-blue-400 uppercase">
                   {user?.role}
@@ -204,7 +204,7 @@ export default function DashboardLayout() {
                   setIsMobileOpen(false);
                   handleLogout();
                 }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-zinc-800 hover:border-red-500/30 bg-zinc-900/40 text-zinc-400 hover:text-red-400 hover:bg-red-500/5 transition-all text-xs font-medium"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-sidebar-border hover:border-red-500/30 bg-sidebar text-sidebar-foreground/75 hover:text-red-500 hover:bg-red-500/5 transition-all text-xs font-medium"
               >
                 <LogOut size={14} />
                 Sign Out
@@ -217,19 +217,19 @@ export default function DashboardLayout() {
       {/* ── MAIN CONTENT AREA ── */}
       <div className="flex-1 flex flex-col lg:pl-64">
         {/* Top Header */}
-        <header className="sticky top-0 z-20 flex h-16 items-center justify-between px-4 sm:px-6 border-b border-zinc-800/60 bg-zinc-950/80 backdrop-blur-xl">
+        <header className="sticky top-0 z-20 flex h-16 items-center justify-between px-4 sm:px-6 border-b border-border bg-card/85 backdrop-blur-xl">
           {/* Left: Mobile hamburger & breadcrumbs */}
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsMobileOpen(true)}
-              className="lg:hidden flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:text-white"
+              className="lg:hidden flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-card/60 text-muted-foreground hover:text-foreground"
             >
               <Menu size={18} />
             </button>
             <div className="flex items-center gap-2 text-sm">
-              <span className="text-zinc-500">Dashboard</span>
-              <ChevronRight size={14} className="text-zinc-600" />
-              <span className="font-semibold text-zinc-200">{activePageName}</span>
+              <span className="text-muted-foreground/80">Dashboard</span>
+              <ChevronRight size={14} className="text-muted-foreground/40" />
+              <span className="font-semibold text-foreground">{activePageName}</span>
             </div>
           </div>
 
@@ -239,7 +239,7 @@ export default function DashboardLayout() {
             <button
               onClick={toggleTheme}
               aria-label="Toggle theme"
-              className="flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:text-white transition-colors"
+              className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-card/60 text-muted-foreground hover:text-foreground transition-colors"
             >
               {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
             </button>

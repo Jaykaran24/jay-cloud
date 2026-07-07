@@ -76,11 +76,11 @@ async function deleteUser(id: string, token: string | null): Promise<void> {
 
 function SkeletonRow() {
   return (
-    <div className="flex items-center gap-4 rounded-xl border border-zinc-800/60 bg-zinc-900/40 px-5 py-4 animate-pulse">
-      <div className="h-4 w-1/4 rounded bg-zinc-800" />
-      <div className="h-4 w-1/3 rounded bg-zinc-800" />
-      <div className="h-5 w-14 rounded-full bg-zinc-800" />
-      <div className="ml-auto h-4 w-24 rounded bg-zinc-800" />
+    <div className="flex items-center gap-4 rounded-xl border border-border bg-card/45 px-5 py-4 animate-pulse">
+      <div className="h-4 w-1/4 rounded bg-muted" />
+      <div className="h-4 w-1/3 rounded bg-muted" />
+      <div className="h-5 w-14 rounded-full bg-muted" />
+      <div className="ml-auto h-4 w-24 rounded bg-muted" />
     </div>
   );
 }
@@ -143,7 +143,7 @@ export default function UsersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 pb-16 pt-10">
+    <div className="min-h-screen bg-background text-foreground px-4 pb-16 pt-10">
       <div className="mx-auto max-w-3xl">
         {/* Header */}
         <motion.div
@@ -154,7 +154,7 @@ export default function UsersPage() {
         >
           <button
             onClick={() => navigate("/dashboard")}
-            className="mb-4 flex items-center gap-1.5 text-sm text-zinc-500 transition-colors hover:text-zinc-300"
+            className="mb-4 flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft size={14} />
             Back to Dashboard
@@ -164,8 +164,8 @@ export default function UsersPage() {
               <Users size={22} className="text-blue-400" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">User Management</h1>
-              <p className="text-sm text-zinc-500">Admin-only — create and manage platform users</p>
+              <h1 className="text-2xl font-bold text-foreground">User Management</h1>
+              <p className="text-sm text-muted-foreground">Admin-only — create and manage platform users</p>
             </div>
           </div>
         </motion.div>
@@ -175,9 +175,9 @@ export default function UsersPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.05 }}
-          className="mb-6 rounded-2xl border border-zinc-800/60 bg-zinc-900/60 p-6 backdrop-blur-xl"
+          className="mb-6 rounded-2xl border border-border bg-card/60 p-6 backdrop-blur-xl"
         >
-          <h2 className="mb-5 flex items-center gap-2 text-base font-semibold text-white">
+          <h2 className="mb-5 flex items-center gap-2 text-base font-semibold text-foreground">
             <UserPlus size={17} className="text-blue-400" />
             Add New User
           </h2>
@@ -186,21 +186,21 @@ export default function UsersPage() {
             <div className="grid gap-4 sm:grid-cols-2">
               {/* Name */}
               <div className="space-y-1.5">
-                <label htmlFor="name" className="block text-sm font-medium text-zinc-300">
+                <label htmlFor="name" className="block text-sm font-medium text-foreground/80">
                   Name
                 </label>
                 <Input
                   id="name"
                   placeholder="Jay Karan"
                   {...register("name")}
-                  className="h-10 rounded-xl border-zinc-700/60 bg-zinc-800/60 text-white placeholder:text-zinc-600"
+                  className="h-10 rounded-xl border-input bg-background text-foreground placeholder:text-muted-foreground/60"
                 />
                 {errors.name && <p className="text-xs text-red-400">{errors.name.message}</p>}
               </div>
 
               {/* Email */}
               <div className="space-y-1.5">
-                <label htmlFor="email" className="block text-sm font-medium text-zinc-300">
+                <label htmlFor="email" className="block text-sm font-medium text-foreground/80">
                   Email
                 </label>
                 <Input
@@ -208,14 +208,14 @@ export default function UsersPage() {
                   type="email"
                   placeholder="user@example.com"
                   {...register("email")}
-                  className="h-10 rounded-xl border-zinc-700/60 bg-zinc-800/60 text-white placeholder:text-zinc-600"
+                  className="h-10 rounded-xl border-input bg-background text-foreground placeholder:text-muted-foreground/60"
                 />
                 {errors.email && <p className="text-xs text-red-400">{errors.email.message}</p>}
               </div>
 
               {/* Password */}
               <div className="space-y-1.5">
-                <label htmlFor="new-password" className="block text-sm font-medium text-zinc-300">
+                <label htmlFor="new-password" className="block text-sm font-medium text-foreground/80">
                   Password
                 </label>
                 <Input
@@ -223,20 +223,20 @@ export default function UsersPage() {
                   type="password"
                   placeholder="Min 8 characters"
                   {...register("password")}
-                  className="h-10 rounded-xl border-zinc-700/60 bg-zinc-800/60 text-white placeholder:text-zinc-600"
+                  className="h-10 rounded-xl border-input bg-background text-foreground placeholder:text-muted-foreground/60"
                 />
                 {errors.password && <p className="text-xs text-red-400">{errors.password.message}</p>}
               </div>
 
               {/* Role */}
               <div className="space-y-1.5">
-                <label htmlFor="role" className="block text-sm font-medium text-zinc-300">
+                <label htmlFor="role" className="block text-sm font-medium text-foreground/80">
                   Role
                 </label>
                 <select
                   id="role"
                   {...register("role")}
-                  className="h-10 w-full rounded-xl border border-zinc-700/60 bg-zinc-800/60 px-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                  className="h-10 w-full rounded-xl border border-input bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
                 >
                   <option value="user">User</option>
                   <option value="admin">Admin</option>
@@ -279,9 +279,9 @@ export default function UsersPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.1 }}
-          className="rounded-2xl border border-zinc-800/60 bg-zinc-900/60 p-6 backdrop-blur-xl"
+          className="rounded-2xl border border-border bg-card/60 p-6 backdrop-blur-xl"
         >
-          <h2 className="mb-5 flex items-center gap-2 text-base font-semibold text-white">
+          <h2 className="mb-5 flex items-center gap-2 text-base font-semibold text-foreground">
             <ShieldCheck size={17} className="text-violet-400" />
             Platform Users
           </h2>
@@ -294,36 +294,36 @@ export default function UsersPage() {
                 <SkeletonRow />
               </>
             ) : !users || users.length === 0 ? (
-              <div className="py-10 text-center text-sm text-zinc-600">
+              <div className="py-10 text-center text-sm text-muted-foreground/60">
                 No users yet. Add your first user above.
               </div>
             ) : (
               users.map((u) => (
                 <div
                   key={u.id}
-                  className="flex items-center gap-3 rounded-xl border border-zinc-800/50 bg-zinc-900/40 px-4 py-3"
+                  className="flex items-center gap-3 rounded-xl border border-border bg-card/40 px-4 py-3"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium text-white">{u.name}</p>
-                    <p className="truncate text-xs text-zinc-500">{u.email}</p>
+                    <p className="truncate text-sm font-medium text-foreground">{u.name}</p>
+                    <p className="truncate text-xs text-muted-foreground">{u.email}</p>
                   </div>
                   <span
                     className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${
                       u.role === "admin"
                         ? "bg-blue-500/15 text-blue-400"
-                        : "bg-zinc-700/40 text-zinc-400"
+                        : "bg-muted text-muted-foreground"
                     }`}
                   >
                     {u.role}
                   </span>
-                  <span className="hidden shrink-0 text-xs text-zinc-600 sm:block">
+                  <span className="hidden shrink-0 text-xs text-muted-foreground/60 sm:block">
                     {new Date(u.createdAt).toLocaleDateString()}
                   </span>
                   <button
                     onClick={() => deleteMutation.mutate(u.id)}
                     disabled={deleteMutation.isPending}
                     aria-label={`Delete user ${u.email}`}
-                    className="shrink-0 rounded-lg p-1.5 text-zinc-600 transition-colors hover:bg-red-500/10 hover:text-red-400 disabled:opacity-50"
+                    className="shrink-0 rounded-lg p-1.5 text-muted-foreground/60 transition-colors hover:bg-red-500/10 hover:text-red-500 disabled:opacity-50"
                   >
                     <Trash2 size={15} />
                   </button>
