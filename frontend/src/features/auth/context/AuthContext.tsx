@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 
 export interface User {
   id: string;
+  name: string;
   email: string;
   role: "admin" | "user";
 }

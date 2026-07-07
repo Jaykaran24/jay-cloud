@@ -58,12 +58,12 @@ export default function LoginPage() {
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
         className="relative z-10 w-full max-w-md rounded-2xl border border-zinc-800/70 bg-zinc-900/60 p-8 shadow-2xl backdrop-blur-xl"
       >
         {/* Logo */}
         <div className="mb-8 flex flex-col items-center gap-3">
-          <Link to="/" className="flex items-center gap-3 group">
+          <Link to="/" className="group flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-violet-600 text-white shadow-lg shadow-blue-500/20 transition-transform group-hover:scale-105">
               <Cloud size={26} />
             </div>
@@ -170,6 +170,11 @@ export default function LoginPage() {
               "Sign In"
             )}
           </Button>
+
+          {/* Dev hint */}
+          <p className="mt-2 text-center text-xs text-zinc-600">
+            Dev login: admin@jaycloud.local / admin1234
+          </p>
         </form>
       </motion.div>
     </div>
