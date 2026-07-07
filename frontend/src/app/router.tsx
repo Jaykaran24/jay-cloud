@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import LandingPage from "@/features/landing/LandingPage";
 import LoginPage from "@/features/auth/LoginPage";
 import DashboardPage from "@/features/dashboard/DashboardPage";
+import UsersPage from "@/features/dashboard/users/UsersPage";
 import ProtectedRoute from "@/features/auth/components/ProtectedRoute";
 
 export const router = createBrowserRouter([
@@ -18,6 +19,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <DashboardPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/dashboard/users",
+    element: (
+      <ProtectedRoute>
+        <UsersPage />
       </ProtectedRoute>
     ),
   },

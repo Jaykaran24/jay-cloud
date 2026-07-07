@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Cloud, Menu, X, LayoutDashboard } from "lucide-react";
+import { Cloud, Menu, X, LayoutDashboard, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/features/auth/context/AuthContext";
+import { useTheme } from "@/features/theme/context/ThemeContext";
 
 const navLinks = [
   { label: "Home", href: "#" },
@@ -15,6 +16,7 @@ const navLinks = [
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { isAuthenticated } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   return (
@@ -27,7 +29,6 @@ export default function Navbar() {
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-violet-600 text-white">
               <Cloud size={22} />
             </div>
-
             <div>
               <h1 className="text-lg font-bold tracking-tight">JAY CLOUD</h1>
               <p className="text-xs text-muted-foreground">Self Hosted Platform</p>
@@ -48,7 +49,16 @@ export default function Navbar() {
           </nav>
 
           {/* Right side */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            {/* Theme toggle — desktop */}
+            <button
+              onClick={toggleTheme}
+              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              className="hidden md:flex h-9 w-9 items-center justify-center rounded-full p-2 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white"
+            >
+              {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
+            </button>
+
             {isAuthenticated ? (
               <Button
                 className="hidden md:inline-flex items-center gap-2"
@@ -82,10 +92,22 @@ export default function Navbar() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
               className="overflow-hidden md:hidden"
             >
               <div className="flex flex-col gap-1 border-t border-zinc-800/60 px-6 pb-4 pt-3">
+                {/* Theme row */}
+                <div className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm text-zinc-400">
+                  <span>Switch theme</span>
+                  <button
+                    onClick={toggleTheme}
+                    aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                    className="flex h-8 w-8 items-center justify-center rounded-full p-1.5 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white"
+                  >
+                    {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+                  </button>
+                </div>
+
                 {navLinks.map((link, i) => (
                   <motion.a
                     key={link.label}
