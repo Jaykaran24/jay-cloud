@@ -39,6 +39,7 @@ All notable changes to Jay Cloud will be documented in this file.
 - [2026-07-06] PortfolioSection: Linked View Portfolio button
 
 ### Fixed
+- [2026-07-07] Dashboard and Login Theme: Rewrote LoginPage, DashboardLayout, DashboardPage, and UsersPage from hardcoded dark colors to semantic Tailwind variables to enable full light/dark theme switching
 - [2026-07-07] TypeScript Lints: Fixed React and ArrowRight unused imports in DashboardPage/Placeholders to resolve build errors
 - [2026-07-07] tsconfig: Added ignoreDeprecations 6.0 to silence TS6 baseUrl deprecation
 - [2026-07-07] HeroSection: Fixed Framer Motion ease type assertion
