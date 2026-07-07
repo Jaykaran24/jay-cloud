@@ -3,7 +3,14 @@ import LandingPage from "@/features/landing/LandingPage";
 import LoginPage from "@/features/auth/LoginPage";
 import DashboardPage from "@/features/dashboard/DashboardPage";
 import UsersPage from "@/features/dashboard/users/UsersPage";
+import DashboardLayout from "@/features/dashboard/layout/DashboardLayout";
 import ProtectedRoute from "@/features/auth/components/ProtectedRoute";
+import {
+  DockerPlaceholder,
+  StoragePlaceholder,
+  MonitoringPlaceholder,
+  SettingsPlaceholder,
+} from "@/features/dashboard/Placeholders";
 
 export const router = createBrowserRouter([
   {
@@ -18,16 +25,34 @@ export const router = createBrowserRouter([
     path: "/dashboard",
     element: (
       <ProtectedRoute>
-        <DashboardPage />
+        <DashboardLayout />
       </ProtectedRoute>
     ),
-  },
-  {
-    path: "/dashboard/users",
-    element: (
-      <ProtectedRoute>
-        <UsersPage />
-      </ProtectedRoute>
-    ),
+    children: [
+      {
+        path: "",
+        element: <DashboardPage />,
+      },
+      {
+        path: "users",
+        element: <UsersPage />,
+      },
+      {
+        path: "docker",
+        element: <DockerPlaceholder />,
+      },
+      {
+        path: "storage",
+        element: <StoragePlaceholder />,
+      },
+      {
+        path: "monitoring",
+        element: <MonitoringPlaceholder />,
+      },
+      {
+        path: "settings",
+        element: <SettingsPlaceholder />,
+      },
+    ],
   },
 ]);

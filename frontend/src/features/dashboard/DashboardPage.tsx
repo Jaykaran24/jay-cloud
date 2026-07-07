@@ -1,110 +1,209 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Cloud, LayoutDashboard, LogOut, Users } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import {
+  Users,
+  Server,
+  Clock,
+  HardDrive,
+  UserPlus,
+  Play,
+  Activity,
+  Database,
+  ShieldAlert,
+} from "lucide-react";
 import { useAuth } from "@/features/auth/context/AuthContext";
 
 export default function DashboardPage() {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
-  const handleLogout = () => {
-    logout();
-    navigate("/", { replace: true });
-  };
+  const stats = [
+    {
+      name: "Total Users",
+      value: user?.role === "admin" ? "5 Active" : "1 Active",
+      description: "Platform accounts",
+      icon: Users,
+      color: "text-blue-400",
+      bg: "bg-blue-500/10",
+    },
+    {
+      name: "Services Running",
+      value: "4 Containers",
+      description: "Docker stack status",
+      icon: Server,
+      color: "text-green-400",
+      bg: "bg-green-500/10",
+    },
+    {
+      name: "System Uptime",
+      value: "2 days 4h",
+      description: "Ubuntu server uptime",
+      icon: Clock,
+      color: "text-violet-400",
+      bg: "bg-violet-500/10",
+    },
+    {
+      name: "Storage Used",
+      value: "10.7%",
+      description: "12.6 GB of 117 GB",
+      icon: HardDrive,
+      color: "text-amber-400",
+      bg: "bg-amber-500/10",
+    },
+  ];
+
+  const recentActivity = [
+    {
+      id: 1,
+      type: "info",
+      message: `Admin user "${user?.email}" logged in`,
+      time: "Just now",
+      icon: Users,
+      color: "text-blue-400 border-blue-500/20",
+    },
+    {
+      id: 2,
+      type: "success",
+      message: "MongoDB connection established",
+      time: "15 minutes ago",
+      icon: Database,
+      color: "text-green-400 border-green-500/20",
+    },
+    {
+      id: 3,
+      type: "warning",
+      message: "Admin seeded successfully",
+      time: "17 minutes ago",
+      icon: ShieldAlert,
+      color: "text-amber-400 border-amber-500/20",
+    },
+  ];
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#09090b]">
-      {/* Top bar */}
-      <header className="sticky top-0 z-50 border-b border-zinc-800/60 bg-zinc-900/60 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-violet-600 text-white">
-              <Cloud size={18} />
-            </div>
-            <span className="font-bold tracking-tight text-white">JAY CLOUD</span>
-          </div>
-          <div className="flex items-center gap-3">
-            {user && (
-              <span className="hidden text-sm text-zinc-500 sm:block">
-                {user.email}
-              </span>
-            )}
-            <Button
-              variant="outline"
-              onClick={handleLogout}
-              className="flex items-center gap-2 rounded-xl border-zinc-700 bg-zinc-800/60 text-zinc-300 hover:bg-zinc-700/60 hover:text-white"
+    <div className="p-6 max-w-7xl mx-auto space-y-8 bg-[#09090b]">
+      {/* Welcome header */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35 }}
+      >
+        <h1 className="text-3xl font-bold text-white tracking-tight">Overview</h1>
+        <p className="text-sm text-zinc-500 mt-1">
+          Welcome back, {user?.name || "Admin"}. Here is your homelab status.
+        </p>
+      </motion.div>
+
+      {/* Stats Grid */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, delay: 0.05 }}
+        className="grid gap-6 md:grid-cols-2 lg:grid-cols-4"
+      >
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div
+              key={stat.name}
+              className="rounded-2xl border border-zinc-800/60 bg-zinc-900/40 p-5 flex items-center justify-between"
             >
-              <LogOut size={15} />
-              Logout
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      {/* Main content */}
-      <main className="flex flex-1 items-center justify-center px-4 py-12">
-        <div className="w-full max-w-2xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-            className="text-center"
-          >
-            {/* Icon */}
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500/20 to-violet-600/20 ring-1 ring-blue-500/20">
-              <LayoutDashboard size={30} className="text-blue-400" />
-            </div>
-
-            <h1 className="mb-3 text-4xl font-bold tracking-tight text-white">
-              Dashboard
-            </h1>
-            <p className="mb-2 text-lg text-zinc-400">Sprint 3 coming soon</p>
-            <p className="text-sm text-zinc-600">
-              Container management, storage and monitoring are on the way.
-            </p>
-          </motion.div>
-
-          {/* Admin actions */}
-          {user?.role === "admin" && (
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: 0.15 }}
-              className="mt-10"
-            >
-              <p className="mb-3 text-center text-xs font-medium uppercase tracking-wider text-zinc-600">
-                Admin tools
-              </p>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <button
-                  onClick={() => navigate("/dashboard/users")}
-                  className="flex items-center gap-3 rounded-xl border border-zinc-800/60 bg-zinc-900/60 px-5 py-4 text-left transition-colors hover:border-blue-500/30 hover:bg-zinc-800/60"
-                >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10">
-                    <Users size={18} className="text-blue-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-white">Manage Users</p>
-                    <p className="text-xs text-zinc-500">Create and remove users</p>
-                  </div>
-                </button>
+              <div className="space-y-1">
+                <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
+                  {stat.name}
+                </p>
+                <p className="text-2xl font-bold text-white tracking-tight">
+                  {stat.value}
+                </p>
+                <p className="text-xs text-zinc-500">{stat.description}</p>
               </div>
-            </motion.div>
-          )}
+              <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${stat.bg} ${stat.color}`}>
+                <Icon size={22} />
+              </div>
+            </div>
+          );
+        })}
+      </motion.div>
 
-          {/* Back to home */}
-          <div className="mt-8 flex justify-center">
-            <Button
-              variant="outline"
-              onClick={() => navigate("/")}
-              className="rounded-xl border-zinc-700 bg-zinc-800/60 text-zinc-300 hover:bg-zinc-700/60 hover:text-white"
+      {/* Quick Actions & Recent Activity */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        {/* Left: Quick Actions */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.1 }}
+          className="lg:col-span-2 rounded-2xl border border-zinc-800/60 bg-zinc-900/50 p-6 space-y-5"
+        >
+          <h2 className="text-lg font-bold text-white tracking-tight">Quick Actions</h2>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {user?.role === "admin" && (
+              <button
+                onClick={() => navigate("/dashboard/users")}
+                className="flex flex-col items-start gap-4 p-4 rounded-xl border border-zinc-800/80 bg-zinc-900/30 hover:border-blue-500/30 hover:bg-zinc-800/40 text-left transition-all duration-200 group"
+              >
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400 group-hover:scale-105 transition-transform">
+                  <UserPlus size={18} />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white">Create User</p>
+                  <p className="text-xs text-zinc-500 mt-0.5">Add client profiles</p>
+                </div>
+              </button>
+            )}
+
+            <button
+              onClick={() => navigate("/dashboard/docker")}
+              className="flex flex-col items-start gap-4 p-4 rounded-xl border border-zinc-800/80 bg-zinc-900/30 hover:border-green-500/30 hover:bg-zinc-800/40 text-left transition-all duration-200 group"
             >
-              Back to Home
-            </Button>
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-green-500/10 text-green-400 group-hover:scale-105 transition-transform">
+                <Play size={18} />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">Docker Config</p>
+                <p className="text-xs text-zinc-500 mt-0.5">Manage containers</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => navigate("/dashboard/monitoring")}
+              className="flex flex-col items-start gap-4 p-4 rounded-xl border border-zinc-800/80 bg-zinc-900/30 hover:border-violet-500/30 hover:bg-zinc-800/40 text-left transition-all duration-200 group"
+            >
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-violet-500/10 text-violet-400 group-hover:scale-105 transition-transform">
+                <Activity size={18} />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">System Metrics</p>
+                <p className="text-xs text-zinc-500 mt-0.5">Monitor server health</p>
+              </div>
+            </button>
           </div>
-        </div>
-      </main>
+        </motion.div>
+
+        {/* Right: Recent Activity */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.15 }}
+          className="rounded-2xl border border-zinc-800/60 bg-zinc-900/50 p-6 space-y-5"
+        >
+          <h2 className="text-lg font-bold text-white tracking-tight">Recent Activity</h2>
+          <div className="space-y-4">
+            {recentActivity.map((activity) => {
+              const Icon = activity.icon;
+              return (
+                <div key={activity.id} className="flex gap-4 items-start">
+                  <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-zinc-800 border ${activity.color}`}>
+                    <Icon size={15} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm text-zinc-200 truncate">{activity.message}</p>
+                    <p className="text-xs text-zinc-500 mt-0.5">{activity.time}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }

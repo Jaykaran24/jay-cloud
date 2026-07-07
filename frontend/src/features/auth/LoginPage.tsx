@@ -170,11 +170,6 @@ export default function LoginPage() {
               "Sign In"
             )}
           </Button>
-
-          {/* Dev hint */}
-          <p className="mt-2 text-center text-xs text-zinc-600">
-            Dev login: admin@jaycloud.local / admin1234
-          </p>
         </form>
       </motion.div>
     </div>
