@@ -5,6 +5,10 @@ All notable changes to Jay Cloud will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- [2026-07-09] DockerPage: Full Docker Management page at /dashboard/docker with container cards, Start/Stop/Restart actions, animated stat counters (total/running/stopped), skeleton loading, empty state, error state with retry, and 30s auto-refresh via React Query
+- [2026-07-09] docker.service.ts: Typed fetch service for Docker API (getContainers, startContainer, stopContainer, restartContainer) with Bearer token auth header
+- [2026-07-09] docker.controller.ts: Backend Express controller using Dockerode to list all containers and perform start/stop/restart actions via /var/run/docker.sock
+- [2026-07-09] docker.routes.ts: Backend router at /api/docker — GET /containers, POST /containers/:id/start|stop|restart — protected by requireAuth middleware
 - [2026-07-07] DashboardLayout: Added responsive layout with desktop sidebar, mobile drawer, page breadcrumbs, Sun/Moon theme toggler and logout options
 - [2026-07-07] Docker/Storage/Monitoring/Settings Placeholders: Added placeholder pages under dashboard layout for future sprints
 - [2026-07-07] Backend Server: Fully implemented Node.js Express + Mongoose backend, connected successfully to Dockerized MongoDB with auth
@@ -25,6 +29,8 @@ All notable changes to Jay Cloud will be documented in this file.
 - [2026-07-06] ContactSection: Glowing orb background, GitHub button, email CTA
 
 ### Changed
+- [2026-07-09] app.ts: Registered /api/docker route with requireAuth middleware and dockerRoutes
+- [2026-07-09] router.tsx: Replaced DockerPlaceholder with full DockerPage at /dashboard/docker route
 - [2026-07-07] auth.service.ts: Removed mock login bypass and connected directly to backend API (/api/auth/login)
 - [2026-07-07] LoginPage: Removed mock credentials hint from UI template
 - [2026-07-07] DashboardPage: Updated dashboard home view with live system stats grid, Quick Actions, and Recent Activity log
@@ -39,6 +45,7 @@ All notable changes to Jay Cloud will be documented in this file.
 - [2026-07-06] PortfolioSection: Linked View Portfolio button
 
 ### Fixed
+- [2026-07-09] docker.controller.ts: Fixed TS2345 error by coercing req.params.id to string before passing to docker.getContainer()
 - [2026-07-07] Dashboard and Login Theme: Rewrote LoginPage, DashboardLayout, DashboardPage, and UsersPage from hardcoded dark colors to semantic Tailwind variables to enable full light/dark theme switching
 - [2026-07-07] TypeScript Lints: Fixed React and ArrowRight unused imports in DashboardPage/Placeholders to resolve build errors
 - [2026-07-07] tsconfig: Added ignoreDeprecations 6.0 to silence TS6 baseUrl deprecation
