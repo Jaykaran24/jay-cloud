@@ -16,11 +16,14 @@ export const listFiles = async (req: Request, res: Response) => {
   try {
     const dirPath = (req.query.path as string) || '/';
     const safePath = getSafePath(dirPath);
+
     const items = await fs.readdir(safePath, { withFileTypes: true });
+
     const files = await Promise.all(
       items.map(async (item) => {
         const itemPath = path.join(safePath, item.name);
         const stats = await fs.stat(itemPath);
+
         return {
           name: item.name,
           type: item.isDirectory() ? 'folder' : 'file',
@@ -29,6 +32,7 @@ export const listFiles = async (req: Request, res: Response) => {
         };
       })
     );
+
     res.json(files);
   } catch (error: any) {
     res.status(400).json({ error: 'Failed to list files', details: error.message });
@@ -50,9 +54,11 @@ export const createFolder = async (req: Request, res: Response) => {
   try {
     const dirPath = (req.body.path as string) || '/';
     const folderName = req.body.name as string;
+
     if (!folderName) {
       return res.status(400).json({ error: 'Folder name is required' });
     }
+
     const safePath = getSafePath(path.join(dirPath, folderName));
     await fs.mkdir(safePath, { recursive: true });
     res.status(201).json({ message: 'Folder created successfully' });
@@ -79,5 +85,54 @@ export const downloadFile = async (req: Request, res: Response) => {
     res.download(safePath);
   } catch (error: any) {
     res.status(500).json({ error: 'Failed to download file', details: error.message });
+  }
+};
+
+export const moveItems = async (req: Request, res: Response) => {
+  try {
+    const { sourcePaths, targetPath } = req.body;
+    if (!Array.isArray(sourcePaths) || targetPath === undefined) return res.status(400).json({ error: 'Invalid payload' });
+    
+    const safeTarget = getSafePath(targetPath);
+    for (const src of sourcePaths) {
+      const safeSrc = getSafePath(src);
+      const itemName = path.basename(safeSrc);
+      await fs.rename(safeSrc, path.join(safeTarget, itemName));
+    }
+    res.status(200).json({ message: 'Items moved successfully' });
+  } catch (error: any) {
+    res.status(500).json({ error: 'Failed to move items', details: error.message });
+  }
+};
+
+export const copyItems = async (req: Request, res: Response) => {
+  try {
+    const { sourcePaths, targetPath } = req.body;
+    if (!Array.isArray(sourcePaths) || targetPath === undefined) return res.status(400).json({ error: 'Invalid payload' });
+    
+    const safeTarget = getSafePath(targetPath);
+    for (const src of sourcePaths) {
+      const safeSrc = getSafePath(src);
+      const itemName = path.basename(safeSrc);
+      await fs.cp(safeSrc, path.join(safeTarget, itemName), { recursive: true });
+    }
+    res.status(200).json({ message: 'Items copied successfully' });
+  } catch (error: any) {
+    res.status(500).json({ error: 'Failed to copy items', details: error.message });
+  }
+};
+
+export const deleteBatch = async (req: Request, res: Response) => {
+  try {
+    const { paths } = req.body;
+    if (!Array.isArray(paths)) return res.status(400).json({ error: 'Invalid payload' });
+    
+    for (const p of paths) {
+      const safePath = getSafePath(p);
+      await fs.rm(safePath, { recursive: true, force: true });
+    }
+    res.status(200).json({ message: 'Items deleted successfully' });
+  } catch (error: any) {
+    res.status(500).json({ error: 'Failed to delete items', details: error.message });
   }
 };

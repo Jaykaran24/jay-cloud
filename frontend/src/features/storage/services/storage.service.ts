@@ -11,7 +11,7 @@ async function authFetch(url: string, token: string | null, options: RequestInit
     headers: {
       ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ../((options.headers as Record<string, string>) ?? {}),
+      ...((options.headers as Record<string, string>) ?? {}),
     },
   });
 }
@@ -30,11 +30,16 @@ export async function createFolder(path: string, name: string, token: string | n
   if (!res.ok) throw new Error('Failed to create folder');
 }
 
-export async function uploadFile(path: string, file: File, token: string | null): Promise<void> {
+export async function uploadFile(path: string, file: File, relativePath: string, token: string | null): Promise<void> {
   const formData = new FormData();
-  formData.append('path', path);
   formData.append('file', file);
-  const res = await authFetch('/api/storage/upload', token, {
+  
+  const query = new URLSearchParams({ path });
+  if (relativePath) {
+    query.append('relativePath', relativePath);
+  }
+  
+  const res = await authFetch(`/api/storage/upload?${query.toString()}`, token, {
     method: 'POST',
     body: formData,
   });
@@ -46,6 +51,30 @@ export async function deleteItem(path: string, token: string | null): Promise<vo
     method: 'DELETE',
   });
   if (!res.ok) throw new Error('Failed to delete item');
+}
+
+export async function deleteBatch(paths: string[], token: string | null): Promise<void> {
+  const res = await authFetch('/api/storage/delete-batch', token, {
+    method: 'POST',
+    body: JSON.stringify({ paths }),
+  });
+  if (!res.ok) throw new Error('Failed to delete items');
+}
+
+export async function moveItems(sourcePaths: string[], targetPath: string, token: string | null): Promise<void> {
+  const res = await authFetch('/api/storage/move', token, {
+    method: 'POST',
+    body: JSON.stringify({ sourcePaths, targetPath }),
+  });
+  if (!res.ok) throw new Error('Failed to move items');
+}
+
+export async function copyItems(sourcePaths: string[], targetPath: string, token: string | null): Promise<void> {
+  const res = await authFetch('/api/storage/copy', token, {
+    method: 'POST',
+    body: JSON.stringify({ sourcePaths, targetPath }),
+  });
+  if (!res.ok) throw new Error('Failed to copy items');
 }
 
 export function getDownloadUrl(path: string, token: string | null): string {
