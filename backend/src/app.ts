@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import authRoutes from './routes/auth.routes';
 import usersRoutes from './routes/users.routes';
 import dockerRoutes from './routes/docker.routes';
+import monitoringRoutes from './routes/monitoring.routes';
 import { errorHandler } from './middleware/error.middleware';
 import { requireAuth } from './middleware/auth.middleware';
 
@@ -27,5 +28,6 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date() });
 });
 
+app.use('/api/monitoring', requireAuth, monitoringRoutes);
 app.use(errorHandler);
 export default app;

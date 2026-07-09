@@ -5,6 +5,10 @@ All notable changes to Jay Cloud will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- [2026-07-09] MonitoringPage: Real-time infrastructure monitoring page at /dashboard/monitoring with animated SVG usage rings for CPU/Memory/Disk, live network I/O card, System Info panel (hostname, OS, kernel, arch, platform), Uptime & Load panel, skeleton loading, error state with retry, and 10s auto-refresh via React Query
+- [2026-07-09] monitoring.service.ts: Typed frontend fetch service for monitoring API (getMetrics, formatBytes, formatUptime) with SystemMetrics interface
+- [2026-07-09] monitoring.controller.ts: Backend Express controller using systeminformation to collect CPU load, memory, disk, network, OS info, and uptime via si.time()
+- [2026-07-09] monitoring.routes.ts: Backend router at /api/monitoring — GET /metrics — protected by requireAuth middleware
 - [2026-07-09] DockerPage: Full Docker Management page at /dashboard/docker with container cards, Start/Stop/Restart actions, animated stat counters (total/running/stopped), skeleton loading, empty state, error state with retry, and 30s auto-refresh via React Query
 - [2026-07-09] docker.service.ts: Typed fetch service for Docker API (getContainers, startContainer, stopContainer, restartContainer) with Bearer token auth header
 - [2026-07-09] docker.controller.ts: Backend Express controller using Dockerode to list all containers and perform start/stop/restart actions via /var/run/docker.sock
@@ -29,6 +33,8 @@ All notable changes to Jay Cloud will be documented in this file.
 - [2026-07-06] ContactSection: Glowing orb background, GitHub button, email CTA
 
 ### Changed
+- [2026-07-09] app.ts: Registered /api/monitoring route with requireAuth middleware and monitoringRoutes
+- [2026-07-09] router.tsx: Replaced MonitoringPlaceholder with full MonitoringPage at /dashboard/monitoring route
 - [2026-07-09] app.ts: Registered /api/docker route with requireAuth middleware and dockerRoutes
 - [2026-07-09] router.tsx: Replaced DockerPlaceholder with full DockerPage at /dashboard/docker route
 - [2026-07-07] auth.service.ts: Removed mock login bypass and connected directly to backend API (/api/auth/login)

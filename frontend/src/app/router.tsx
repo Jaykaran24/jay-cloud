@@ -6,9 +6,9 @@ import UsersPage from '@/features/dashboard/users/UsersPage';
 import DashboardLayout from '@/features/dashboard/layout/DashboardLayout';
 import ProtectedRoute from '@/features/auth/components/ProtectedRoute';
 import DockerPage from '@/features/docker/DockerPage';
+import MonitoringPage from '@/features/monitoring/MonitoringPage';
 import {
   StoragePlaceholder,
-  MonitoringPlaceholder,
   SettingsPlaceholder,
 } from '@/features/dashboard/Placeholders';
 
@@ -47,7 +47,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'monitoring',
-        element: <MonitoringPlaceholder />,
+        element: <MonitoringPage />,
       },
       {
         path: 'settings',
