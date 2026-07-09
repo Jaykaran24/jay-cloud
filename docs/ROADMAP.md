@@ -56,11 +56,11 @@ Frontend Foundation
 
 Current Sprint
 
-Sprint 1
+Sprint 7
 
 Current Task
 
-Landing Page
+MongoDB Manager
 
 ---
 
@@ -208,14 +208,14 @@ Build a self-hosted cloud storage solution.
 
 Status
 
-⚪ Planned
+🟢 Completed
 
 Tasks
 
-- [ ] File Upload
-- [ ] File Download
-- [ ] Folder Support
-- [ ] Drag & Drop Upload
+- [x] File Upload
+- [x] File Download
+- [x] Folder Support
+- [x] Drag & Drop Upload
 - [ ] Image Preview
 - [ ] File Sharing
 - [ ] Storage Quotas

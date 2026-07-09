@@ -5,6 +5,11 @@ All notable changes to Jay Cloud will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- [2026-07-09] StoragePage: Folder uploads using `webkitdirectory`, multi-select files/folders, bulk delete toolbar, and bulk move/copy modal.
+- [2026-07-09] storage.service.ts: Added endpoints for batch delete, move, and copy, and extended uploadFile with `relativePath`.
+- [2026-07-09] storage.controller.ts: Added backend endpoints `moveItems`, `copyItems` (using `fs.cp`), and `deleteBatch`.
+- [2026-07-09] storage.routes.ts: Updated multer diskStorage to reconstruct directories based on `relativePath` query param.
+- [2026-07-09] StoragePage: Initial Google Drive-style layout with folder creation, drag-and-drop file upload, file downloading, and deletion.
 - [2026-07-09] MonitoringPage: Real-time infrastructure monitoring page at /dashboard/monitoring with animated SVG usage rings for CPU/Memory/Disk, live network I/O card, System Info panel (hostname, OS, kernel, arch, platform), Uptime & Load panel, skeleton loading, error state with retry, and 10s auto-refresh via React Query
 - [2026-07-09] monitoring.service.ts: Typed frontend fetch service for monitoring API (getMetrics, formatBytes, formatUptime) with SystemMetrics interface
 - [2026-07-09] monitoring.controller.ts: Backend Express controller using systeminformation to collect CPU load, memory, disk, network, OS info, and uptime via si.time()
@@ -33,6 +38,8 @@ All notable changes to Jay Cloud will be documented in this file.
 - [2026-07-06] ContactSection: Glowing orb background, GitHub button, email CTA
 
 ### Changed
+- [2026-07-09] app.ts: Registered /api/storage route with requireAuth middleware and storageRoutes
+- [2026-07-09] router.tsx: Replaced StoragePlaceholder with full StoragePage at /dashboard/storage route
 - [2026-07-09] app.ts: Registered /api/monitoring route with requireAuth middleware and monitoringRoutes
 - [2026-07-09] router.tsx: Replaced MonitoringPlaceholder with full MonitoringPage at /dashboard/monitoring route
 - [2026-07-09] app.ts: Registered /api/docker route with requireAuth middleware and dockerRoutes
@@ -51,10 +58,12 @@ All notable changes to Jay Cloud will be documented in this file.
 - [2026-07-06] PortfolioSection: Linked View Portfolio button
 
 ### Fixed
+- [2026-07-09] storage.service.ts: Fixed Type-Only Export syntax error by importing types explicitly for Vite/esbuild
+- [2026-07-09] storage.service.ts: Fixed `../` typo in fetch headers object spread
+- [2026-07-09] storage.routes.ts: Changed `req.body.path` to `req.query.path` to resolve Multer missing form data path issues before saving files
 - [2026-07-09] docker.controller.ts: Fixed TS2345 error by coercing req.params.id to string before passing to docker.getContainer()
 - [2026-07-07] Dashboard and Login Theme: Rewrote LoginPage, DashboardLayout, DashboardPage, and UsersPage from hardcoded dark colors to semantic Tailwind variables to enable full light/dark theme switching
 - [2026-07-07] TypeScript Lints: Fixed React and ArrowRight unused imports in DashboardPage/Placeholders to resolve build errors
 - [2026-07-07] tsconfig: Added ignoreDeprecations 6.0 to silence TS6 baseUrl deprecation
 - [2026-07-07] HeroSection: Fixed Framer Motion ease type assertion
 - [2026-07-06] Footer: Replaced invalid Github lucide-react export with inline SVG
-- feat(storage): implement cloud storage milestone with file upload/download and folder support
