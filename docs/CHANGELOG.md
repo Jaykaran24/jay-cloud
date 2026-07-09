@@ -57,3 +57,4 @@ All notable changes to Jay Cloud will be documented in this file.
 - [2026-07-07] tsconfig: Added ignoreDeprecations 6.0 to silence TS6 baseUrl deprecation
 - [2026-07-07] HeroSection: Fixed Framer Motion ease type assertion
 - [2026-07-06] Footer: Replaced invalid Github lucide-react export with inline SVG
+- feat(storage): implement cloud storage milestone with file upload/download and folder support
