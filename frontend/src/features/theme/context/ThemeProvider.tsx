@@ -4,11 +4,16 @@ import { ThemeContext, type Theme } from "./ThemeContext";
 const THEME_KEY = "jay-cloud-theme";
 
 function applyTheme(theme: Theme) {
+  const root = document.documentElement;
   if (theme === "dark") {
-    document.documentElement.classList.add("dark");
+    root.classList.add("dark");
+    root.classList.remove("light");
   } else {
-    document.documentElement.classList.remove("dark");
+    root.classList.remove("dark");
+    root.classList.add("light");
   }
+  // Also set a data attribute for extra specificity if needed
+  root.setAttribute("data-theme", theme);
 }
 
 interface ThemeProviderProps {
@@ -21,7 +26,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     return stored === "light" ? "light" : "dark";
   });
 
-  // Apply theme class on mount and on change
+  // Apply theme class on mount and on every change
   useEffect(() => {
     applyTheme(theme);
     localStorage.setItem(THEME_KEY, theme);
