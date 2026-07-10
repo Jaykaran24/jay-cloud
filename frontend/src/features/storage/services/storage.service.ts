@@ -77,7 +77,7 @@ export async function copyItems(sourcePaths: string[], targetPath: string, token
   if (!res.ok) throw new Error('Failed to copy items');
 }
 
-export function getDownloadUrl(path: string, token: string | null): string {
+export function getDownloadUrl(path: string, _token: string | null): string {
   return `/api/storage/download/item?path=${encodeURIComponent(path)}`;
 }
 

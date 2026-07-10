@@ -14,6 +14,7 @@ import {
   Moon,
   Cloud,
   ChevronRight,
+  Database,
 } from "lucide-react";
 import { useAuth } from "@/features/auth/context/AuthContext";
 import { useTheme } from "@/features/theme/context/ThemeContext";
@@ -37,6 +38,7 @@ export default function DashboardLayout() {
     { name: "Users", path: "/dashboard/users", icon: Users, adminOnly: true },
     { name: "Docker", path: "/dashboard/docker", icon: Server },
     { name: "Storage", path: "/dashboard/storage", icon: HardDrive },
+    { name: "Database (Mongo)", path: "/dashboard/mongo", icon: Database },
     { name: "Monitoring", path: "/dashboard/monitoring", icon: Activity },
     { name: "Settings", path: "/dashboard/settings", icon: SettingsIcon },
   ];

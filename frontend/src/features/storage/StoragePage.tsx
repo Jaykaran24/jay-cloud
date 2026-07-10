@@ -1,4 +1,5 @@
-import { useState, useRef, ChangeEvent } from 'react';
+import { useState, useRef } from 'react';
+import type { ChangeEvent } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { File as FileIcon, Folder, Download, Trash2, UploadCloud, FolderPlus, Image as ImageIcon, FileText, FileArchive, RefreshCw, CheckSquare, Copy, MoveRight, X } from 'lucide-react';

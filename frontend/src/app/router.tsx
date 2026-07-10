@@ -8,6 +8,7 @@ import ProtectedRoute from '@/features/auth/components/ProtectedRoute';
 import DockerPage from '@/features/docker/DockerPage';
 import MonitoringPage from '@/features/monitoring/MonitoringPage';
 import StoragePage from '@/features/storage/StoragePage';
+import MongoPage from '@/features/mongo/MongoPage';
 import {
   SettingsPlaceholder,
 } from '@/features/dashboard/Placeholders';
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
       {
         path: 'storage',
         element: <StoragePage />,
+      },
+      {
+        path: 'mongo',
+        element: <MongoPage />,
       },
       {
         path: 'monitoring',
