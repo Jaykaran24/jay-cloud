@@ -117,8 +117,8 @@ export default function MongoPage() {
               <div className="text-muted-foreground italic flex justify-center py-10">No documents found in this collection.</div>
             )}
             {documents.map((doc, i) => (
-              <div key={doc._id || i} className="bg-background border border-border p-4 rounded-lg mb-4 shadow-sm overflow-x-auto">
-                <pre className="text-sm font-mono text-foreground">
+              <div key={doc._id || i} className="bg-background border border-border p-4 rounded-lg mb-4 shadow-sm">
+                <pre className="text-sm font-mono text-foreground overflow-auto max-h-96 whitespace-pre-wrap break-all">
                   {JSON.stringify(doc, null, 2)}
                 </pre>
               </div>
