@@ -10,7 +10,7 @@ const docker = new Dockerode({ socketPath: '/var/run/docker.sock' });
 
 export async function deployApp(req: Request, res: Response): Promise<void> {
   try {
-    const { projectName, envVars, deploymentType, gitUrl, dockerImage } = req.body;
+    const { projectName, envVars, deploymentType, gitUrl, dockerImage, subdomain, port } = req.body;
     const file = req.file;
 
     if (!projectName) {
@@ -36,6 +36,18 @@ export async function deployApp(req: Request, res: Response): Promise<void> {
       await execPromise(`docker rm -f ${containerName}`);
     } catch (e) {}
 
+    try {
+      await execPromise(`docker network inspect jay-cloud-net`);
+    } catch (e) {
+      await execPromise(`docker network create jay-cloud-net`);
+    }
+
+    let labelArgs = '';
+    if (subdomain && port) {
+      labelArgs = `--label 'traefik.enable=true' --label 'traefik.http.routers.${containerName}.rule=Host(\`${subdomain}.jay24codes.me\`)' --label 'traefik.http.services.${containerName}.loadbalancer.server.port=${port}'`;
+    }
+    const networkArgs = `--network jay-cloud-net`;
+
     const extractDir = path.join(process.cwd(), 'storage', 'deployments', safeProjectName);
 
     if (deploymentType === 'zip') {
@@ -50,7 +62,7 @@ export async function deployApp(req: Request, res: Response): Promise<void> {
       fs.renameSync(file.path, zipPath);
       await execPromise(`unzip -o ${zipPath} -d ${extractDir}`);
       await execPromise(`docker build -t ${containerName} ${extractDir}`);
-      await execPromise(`docker run -d --name ${containerName} ${envArgs} -P ${containerName}`);
+      await execPromise(`docker run -d --name ${containerName} ${networkArgs} ${labelArgs} ${envArgs} -P ${containerName}`);
     } else if (deploymentType === 'github') {
       if (!gitUrl) {
         res.status(400).json({ error: 'Git URL is required' });
@@ -61,13 +73,13 @@ export async function deployApp(req: Request, res: Response): Promise<void> {
       }
       await execPromise(`git clone ${gitUrl} ${extractDir}`);
       await execPromise(`docker build -t ${containerName} ${extractDir}`);
-      await execPromise(`docker run -d --name ${containerName} ${envArgs} -P ${containerName}`);
+      await execPromise(`docker run -d --name ${containerName} ${networkArgs} ${labelArgs} ${envArgs} -P ${containerName}`);
     } else if (deploymentType === 'image') {
       if (!dockerImage) {
         res.status(400).json({ error: 'Docker image name is required' });
         return;
       }
-      await execPromise(`docker run -d --name ${containerName} ${envArgs} -P ${dockerImage}`);
+      await execPromise(`docker run -d --name ${containerName} ${networkArgs} ${labelArgs} ${envArgs} -P ${dockerImage}`);
     } else {
       res.status(400).json({ error: 'Invalid deployment type' });
       return;

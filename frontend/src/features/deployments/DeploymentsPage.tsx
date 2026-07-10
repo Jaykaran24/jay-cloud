@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Rocket, UploadCloud, RefreshCw, Server, Activity, GitBranch, Package, Play, Square, Trash2 } from 'lucide-react';
+import { Rocket, UploadCloud, RefreshCw, Server, Activity, GitBranch, Package, Play, Square, Trash2, Globe } from 'lucide-react';
 import { useAuth } from '@/features/auth/context/AuthContext';
 import { getDeployments, deployApp, startDeployment, stopDeployment, restartDeployment, deleteDeployment } from './services/deployments.service';
 
@@ -18,6 +18,8 @@ export default function DeploymentsPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [gitUrl, setGitUrl] = useState('');
   const [dockerImage, setDockerImage] = useState('');
+  const [subdomain, setSubdomain] = useState('');
+  const [port, setPort] = useState('3000');
 
   useEffect(() => {
     fetchDeployments();
@@ -65,12 +67,14 @@ export default function DeploymentsPage() {
     try {
       setUploading(true);
       setError(null);
-      await deployApp(projectName, deploymentType, envVars, token, selectedFile, gitUrl, dockerImage);
+      await deployApp(projectName, deploymentType, envVars, token, selectedFile, gitUrl, dockerImage, subdomain, port);
       
       setProjectName('');
       setSelectedFile(null);
       setGitUrl('');
       setDockerImage('');
+      setSubdomain('');
+      setPort('3000');
       setEnvVars('{\n  "PORT": "3000"\n}');
       
       await fetchDeployments();
@@ -153,6 +157,34 @@ export default function DeploymentsPage() {
                 className="w-full bg-background border border-border rounded-lg p-2.5 text-sm focus:border-primary focus:outline-none"
                 required
               />
+            </div>
+
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <label className="block text-sm font-medium mb-1">Subdomain (Optional)</label>
+                <input 
+                  type="text" 
+                  value={subdomain}
+                  onChange={e => setSubdomain(e.target.value)}
+                  placeholder="my-app"
+                  className="w-full bg-background border border-border rounded-lg p-2.5 text-sm focus:border-primary focus:outline-none"
+                />
+                {subdomain && (
+                  <p className="text-xs text-muted-foreground mt-1.5 flex items-center gap-1">
+                    <Globe size={12} className="text-primary" /> Will be available at: <span className="font-semibold text-primary">{subdomain}.jay24codes.me</span>
+                  </p>
+                )}
+              </div>
+              <div className="w-24">
+                <label className="block text-sm font-medium mb-1">Port</label>
+                <input 
+                  type="text" 
+                  value={port}
+                  onChange={e => setPort(e.target.value)}
+                  placeholder="3000"
+                  className="w-full bg-background border border-border rounded-lg p-2.5 text-sm focus:border-primary focus:outline-none"
+                />
+              </div>
             </div>
 
             {deploymentType === 'zip' && (

@@ -22,7 +22,9 @@ export async function deployApp(
   token: string | null,
   file?: File | null,
   gitUrl?: string,
-  dockerImage?: string
+  dockerImage?: string,
+  subdomain?: string,
+  port?: string
 ): Promise<any> {
   const formData = new FormData();
   formData.append('projectName', projectName);
@@ -32,6 +34,8 @@ export async function deployApp(
   if (file) formData.append('file', file);
   if (gitUrl) formData.append('gitUrl', gitUrl);
   if (dockerImage) formData.append('dockerImage', dockerImage);
+  if (subdomain) formData.append('subdomain', subdomain);
+  if (port) formData.append('port', port);
 
   const res = await authFetch('/api/deployments/deploy', token, {
     method: 'POST',
