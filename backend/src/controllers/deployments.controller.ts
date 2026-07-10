@@ -8,15 +8,11 @@ import util from 'util';
 const execPromise = util.promisify(exec);
 const docker = new Dockerode({ socketPath: '/var/run/docker.sock' });
 
-export async function uploadAndDeploy(req: Request, res: Response): Promise<void> {
+export async function deployApp(req: Request, res: Response): Promise<void> {
   try {
+    const { projectName, envVars, deploymentType, gitUrl, dockerImage } = req.body;
     const file = req.file;
-    if (!file) {
-      res.status(400).json({ error: 'No zip file provided' });
-      return;
-    }
 
-    const { projectName, envVars } = req.body;
     if (!projectName) {
       res.status(400).json({ error: 'Project name is required' });
       return;
@@ -32,25 +28,50 @@ export async function uploadAndDeploy(req: Request, res: Response): Promise<void
       }
     }
 
-    const extractDir = path.join(process.cwd(), 'storage', 'deployments', projectName);
-    if (!fs.existsSync(extractDir)) {
-      fs.mkdirSync(extractDir, { recursive: true });
-    }
-
-    const zipPath = path.join(extractDir, file.originalname);
-    fs.renameSync(file.path, zipPath);
-
-    await execPromise(`unzip -o ${zipPath} -d ${extractDir}`);
-
-    const imageName = `jay-cloud-${projectName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
-    await execPromise(`docker build -t ${imageName} ${extractDir}`);
+    const envArgs = parsedEnv.map(e => `-e "${e}"`).join(' ');
+    const safeProjectName = projectName.toLowerCase().replace(/[^a-z0-9]/g, '-');
+    const containerName = `jay-cloud-${safeProjectName}`;
 
     try {
-      await execPromise(`docker rm -f ${imageName}`);
+      await execPromise(`docker rm -f ${containerName}`);
     } catch (e) {}
 
-    const envArgs = parsedEnv.map(e => `-e "${e}"`).join(' ');
-    await execPromise(`docker run -d --name ${imageName} ${envArgs} -P ${imageName}`);
+    const extractDir = path.join(process.cwd(), 'storage', 'deployments', safeProjectName);
+
+    if (deploymentType === 'zip') {
+      if (!file) {
+        res.status(400).json({ error: 'No zip file provided' });
+        return;
+      }
+      if (!fs.existsSync(extractDir)) {
+        fs.mkdirSync(extractDir, { recursive: true });
+      }
+      const zipPath = path.join(extractDir, file.originalname);
+      fs.renameSync(file.path, zipPath);
+      await execPromise(`unzip -o ${zipPath} -d ${extractDir}`);
+      await execPromise(`docker build -t ${containerName} ${extractDir}`);
+      await execPromise(`docker run -d --name ${containerName} ${envArgs} -P ${containerName}`);
+    } else if (deploymentType === 'github') {
+      if (!gitUrl) {
+        res.status(400).json({ error: 'Git URL is required' });
+        return;
+      }
+      if (fs.existsSync(extractDir)) {
+        fs.rmSync(extractDir, { recursive: true, force: true });
+      }
+      await execPromise(`git clone ${gitUrl} ${extractDir}`);
+      await execPromise(`docker build -t ${containerName} ${extractDir}`);
+      await execPromise(`docker run -d --name ${containerName} ${envArgs} -P ${containerName}`);
+    } else if (deploymentType === 'image') {
+      if (!dockerImage) {
+        res.status(400).json({ error: 'Docker image name is required' });
+        return;
+      }
+      await execPromise(`docker run -d --name ${containerName} ${envArgs} -P ${dockerImage}`);
+    } else {
+      res.status(400).json({ error: 'Invalid deployment type' });
+      return;
+    }
 
     res.json({ message: 'Deployment successful', projectName });
   } catch (err: any) {

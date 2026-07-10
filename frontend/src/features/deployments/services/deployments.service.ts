@@ -15,13 +15,25 @@ export async function getDeployments(token: string | null): Promise<any[]> {
   return res.json();
 }
 
-export async function uploadDeployment(projectName: string, file: File, envVars: string, token: string | null): Promise<any> {
+export async function deployApp(
+  projectName: string, 
+  deploymentType: string, 
+  envVars: string, 
+  token: string | null,
+  file?: File | null,
+  gitUrl?: string,
+  dockerImage?: string
+): Promise<any> {
   const formData = new FormData();
   formData.append('projectName', projectName);
-  formData.append('file', file);
+  formData.append('deploymentType', deploymentType);
   formData.append('envVars', envVars);
+  
+  if (file) formData.append('file', file);
+  if (gitUrl) formData.append('gitUrl', gitUrl);
+  if (dockerImage) formData.append('dockerImage', dockerImage);
 
-  const res = await authFetch('/api/deployments/upload', token, {
+  const res = await authFetch('/api/deployments/deploy', token, {
     method: 'POST',
     body: formData,
   });
