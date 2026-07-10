@@ -4,6 +4,18 @@ const multer = require('multer');
 const Docker = require('dockerode');
 const fs = require('fs');
 const path = require('path');
+const { MongoClient } = require('mongodb');
+
+const mongoUrl = process.env.MONGO_URL || 'mongodb://192.168.1.33:27017';
+let mongoClient;
+MongoClient.connect(mongoUrl)
+  .then(client => {
+    mongoClient = client;
+    console.log('Connected to MongoDB');
+  })
+  .catch(err => {
+    console.error('Failed to connect to MongoDB:', err);
+  });
 
 const app = express();
 app.use(cors());
@@ -115,6 +127,40 @@ app.delete('/api/files/:filename', (req, res) => {
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+// 3. MongoDB Manager
+app.get('/api/mongo/dbs', async (req, res) => {
+  if (!mongoClient) return res.status(500).json({ error: 'MongoDB not connected' });
+  try {
+    const adminDb = mongoClient.db().admin();
+    const result = await adminDb.listDatabases();
+    res.json(result.databases);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/mongo/dbs/:db/collections', async (req, res) => {
+  if (!mongoClient) return res.status(500).json({ error: 'MongoDB not connected' });
+  try {
+    const db = mongoClient.db(req.params.db);
+    const collections = await db.listCollections().toArray();
+    res.json(collections);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/mongo/dbs/:db/collections/:collection/docs', async (req, res) => {
+  if (!mongoClient) return res.status(500).json({ error: 'MongoDB not connected' });
+  try {
+    const db = mongoClient.db(req.params.db);
+    const docs = await db.collection(req.params.collection).find({}).limit(50).toArray();
+    res.json(docs);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 app.use((req, res) => {
   if (req.path.startsWith('/api')) return res.status(404).json({ error: 'API not found' });
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Activity, HardDrive, Box, LogOut, Search, Settings } from 'lucide-react';
+import { Activity, HardDrive, Database, Box, LogOut, Search, Settings } from 'lucide-react';
 import NavItem from './components/NavItem';
 import HostingView from './views/HostingView';
 import StorageView from './views/StorageView';
+import MongoDBPage from './views/MongoDBPage';
 
 export default function AdminDashboard({ onLogout }) {
   const [activeTab, setActiveTab] = useState('hosting');
@@ -17,6 +18,7 @@ export default function AdminDashboard({ onLogout }) {
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1 }}>
           <NavItem icon={<Activity />} label="Hosting (Vercel)" active={activeTab === 'hosting'} onClick={() => setActiveTab('hosting')} />
           <NavItem icon={<HardDrive />} label="Storage (Drive)" active={activeTab === 'storage'} onClick={() => setActiveTab('storage')} />
+          <NavItem icon={<Database />} label="Database (Mongo)" active={activeTab === 'mongo'} onClick={() => setActiveTab('mongo')} />
           <NavItem icon={<Settings />} label="Settings" active={activeTab === 'settings'} onClick={() => setActiveTab('settings')} />
         </nav>
 
@@ -37,6 +39,7 @@ export default function AdminDashboard({ onLogout }) {
         <div className="glass-panel animate-fade-in" style={{ flex: 1, padding: '32px', overflowY: 'auto' }}>
           {activeTab === 'hosting' && <HostingView />}
           {activeTab === 'storage' && <StorageView />}
+          {activeTab === 'mongo' && <MongoDBPage />}
           {activeTab === 'settings' && <div>Settings panel coming soon.</div>}
         </div>
       </main>

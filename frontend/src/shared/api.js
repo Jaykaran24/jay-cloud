@@ -45,3 +45,14 @@ export function deleteFile(filename) {
     method: 'DELETE'
   });
 }
+export function getMongoDatabases() {
+  return request('/mongo/dbs');
+}
+
+export function getMongoCollections(dbName) {
+  return request(`/mongo/dbs/${encodeURIComponent(dbName)}/collections`);
+}
+
+export function getMongoDocuments(dbName, colName) {
+  return request(`/mongo/dbs/${encodeURIComponent(dbName)}/collections/${encodeURIComponent(colName)}/docs`);
+}
