@@ -2,9 +2,9 @@
 
 All notable changes to Jay Cloud will be documented in this file.
 
-## [Unreleased]
-
 ### Added
+- [2026-07-11] DeploymentsPage: Added deployment lifecycle action buttons (Stop, Start, Restart, Delete) directly to the active deployment cards.
+- [2026-07-11] deployments.controller.ts: Added backend endpoints `/:id/stop`, `/:id/start`, `/:id/restart`, and `/:id/delete` using Dockerode to manage container lifecycles securely.
 - [2026-07-11] DeploymentsPage: New feature for Vercel/Render-style application hosting with segmented controls for deployment sources (Upload ZIP, GitHub Repository, Docker Image) and environment variable injection.
 - [2026-07-11] deployments.controller.ts: Added endpoints to clone Git repositories via `child_process`, pull Docker images directly, or extract ZIP files, and dynamically run Docker containers from them.
 - [2026-07-11] deployments.routes.ts: New `/api/deployments` endpoint to handle dynamic application hosting payloads.
