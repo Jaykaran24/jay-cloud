@@ -8,6 +8,7 @@ import dockerRoutes from './routes/docker.routes';
 import monitoringRoutes from './routes/monitoring.routes';
 import storageRoutes from './routes/storage.routes';
 import mongoRoutes from './routes/mongo.routes';
+import deploymentsRoutes from './routes/deployments.routes';
 import { errorHandler } from './middleware/error.middleware';
 import { requireAuth } from './middleware/auth.middleware';
 
@@ -28,6 +29,7 @@ app.use('/api/users', usersRoutes);
 app.use('/api/docker', requireAuth, dockerRoutes);
 app.use('/api/storage', requireAuth, storageRoutes);
 app.use('/api/mongo', requireAuth, mongoRoutes);
+app.use('/api/deployments', requireAuth, deploymentsRoutes);
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date() });
 });

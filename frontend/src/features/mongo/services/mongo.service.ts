@@ -9,29 +9,20 @@ async function authFetch(url: string, token: string | null, options: RequestInit
   });
 }
 
-async function handleResponse(res: Response, defaultMessage: string) {
-  if (!res.ok) {
-    let errorMsg = defaultMessage;
-    try {
-      const errorData = await res.json();
-      if (errorData.message) errorMsg = errorData.message;
-    } catch (e) {}
-    throw new Error(errorMsg);
-  }
-  return res.json();
-}
-
 export async function getMongoDatabases(token: string | null): Promise<any[]> {
   const res = await authFetch('/api/mongo/dbs', token);
-  return handleResponse(res, 'Failed to fetch databases');
+  if (!res.ok) throw new Error('Failed to fetch databases');
+  return res.json();
 }
 
 export async function getMongoCollections(dbName: string, token: string | null): Promise<any[]> {
   const res = await authFetch(`/api/mongo/dbs/${encodeURIComponent(dbName)}/collections`, token);
-  return handleResponse(res, 'Failed to fetch collections');
+  if (!res.ok) throw new Error('Failed to fetch collections');
+  return res.json();
 }
 
 export async function getMongoDocuments(dbName: string, colName: string, token: string | null): Promise<any[]> {
   const res = await authFetch(`/api/mongo/dbs/${encodeURIComponent(dbName)}/collections/${encodeURIComponent(colName)}/docs`, token);
-  return handleResponse(res, 'Failed to fetch documents');
+  if (!res.ok) throw new Error('Failed to fetch documents');
+  return res.json();
 }

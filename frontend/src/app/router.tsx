@@ -9,6 +9,7 @@ import DockerPage from '@/features/docker/DockerPage';
 import MonitoringPage from '@/features/monitoring/MonitoringPage';
 import StoragePage from '@/features/storage/StoragePage';
 import MongoPage from '@/features/mongo/MongoPage';
+import DeploymentsPage from '@/features/deployments/DeploymentsPage';
 import {
   SettingsPlaceholder,
 } from '@/features/dashboard/Placeholders';
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
       {
         path: 'monitoring',
         element: <MonitoringPage />,
+      },
+      {
+        path: 'deployments',
+        element: <DeploymentsPage />,
       },
       {
         path: 'settings',

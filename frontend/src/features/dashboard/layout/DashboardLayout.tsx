@@ -15,6 +15,7 @@ import {
   Cloud,
   ChevronRight,
   Database,
+  Rocket,
 } from "lucide-react";
 import { useAuth } from "@/features/auth/context/AuthContext";
 import { useTheme } from "@/features/theme/context/ThemeContext";
@@ -39,6 +40,7 @@ export default function DashboardLayout() {
     { name: "Docker", path: "/dashboard/docker", icon: Server },
     { name: "Storage", path: "/dashboard/storage", icon: HardDrive },
     { name: "Database (Mongo)", path: "/dashboard/mongo", icon: Database },
+    { name: "Deployments", path: "/dashboard/deployments", icon: Rocket },
     { name: "Monitoring", path: "/dashboard/monitoring", icon: Activity },
     { name: "Settings", path: "/dashboard/settings", icon: SettingsIcon },
   ];
