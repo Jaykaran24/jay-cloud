@@ -5,6 +5,9 @@ All notable changes to Jay Cloud will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- [2026-07-11] DeploymentsPage: New feature for Vercel/Render-style application hosting with segmented controls for deployment sources (Upload ZIP, GitHub Repository, Docker Image) and environment variable injection.
+- [2026-07-11] deployments.controller.ts: Added endpoints to clone Git repositories via `child_process`, pull Docker images directly, or extract ZIP files, and dynamically run Docker containers from them.
+- [2026-07-11] deployments.routes.ts: New `/api/deployments` endpoint to handle dynamic application hosting payloads.
 - [2026-07-11] MongoPage: New MongoDB Manager dashboard page with a split sidebar layout to browse databases, collections, and a main pane for viewing JSON documents with auto-scroll and text-wrapping constraints.
 - [2026-07-11] mongo.service.ts: API fetch service connecting to backend Mongo endpoints, including robust handling of MongoDB `Not Authorized` JSON errors.
 - [2026-07-11] mongo.controller.ts: Native MongoDB driver endpoints (`listDatabases`, `listCollections`, `fetchDocuments`) extracting connections dynamically from Mongoose instance.
@@ -42,6 +45,9 @@ All notable changes to Jay Cloud will be documented in this file.
 - [2026-07-06] ContactSection: Glowing orb background, GitHub button, email CTA
 
 ### Changed
+- [2026-07-11] app.ts: Mounted new `/api/deployments` router under requireAuth.
+- [2026-07-11] router.tsx: Added `DeploymentsPage` at `/dashboard/deployments` route.
+- [2026-07-11] DashboardLayout: Updated sidebar to include the Deployments tab.
 - [2026-07-11] app.ts: Mounted new `/api/mongo` router under requireAuth.
 - [2026-07-11] router.tsx: Replaced MongoPlaceholder with full MongoPage at `/dashboard/mongo` route.
 - [2026-07-11] DashboardLayout: Updated sidebar to include the Database (Mongo) tab with Lucide Database icon.
