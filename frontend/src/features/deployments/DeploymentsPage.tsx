@@ -296,6 +296,14 @@ export default function DeploymentsPage() {
                       <span className="text-muted-foreground">Uptime:</span>
                       <span className="text-xs">{app.status}</span>
                     </div>
+                    {app.domain && (
+                      <div className="flex justify-between items-center bg-primary/10 -mx-4 px-4 py-2 mt-2 border-y border-primary/20">
+                        <span className="text-primary font-medium text-xs flex items-center gap-1"><Globe size={12}/> Domain:</span>
+                        <a href={`http://${app.domain}`} target="_blank" rel="noreferrer" className="text-xs text-primary hover:underline truncate max-w-[150px] font-medium">
+                          {app.domain}
+                        </a>
+                      </div>
+                    )}
                   </div>
                   
                   <div className="mt-4 flex gap-2">

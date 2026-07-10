@@ -107,6 +107,9 @@ export async function getDeployments(_req: Request, res: Response): Promise<void
           p.PublicPort ? `${p.PublicPort}:${p.PrivatePort}` : `${p.PrivatePort}`
         ).filter(Boolean),
         created: new Date(c.Created * 1000).toISOString(),
+        domain: Object.keys(c.Labels || {}).find(k => k.startsWith('traefik.http.routers.'))
+          ? c.Labels[Object.keys(c.Labels).find(k => k.startsWith('traefik.http.routers.'))!].match(/Host\(`([^`]+)`\)/)?.[1]
+          : undefined
       }));
     res.json(deployments);
   } catch (err) {
