@@ -56,11 +56,11 @@ Frontend Foundation
 
 Current Sprint
 
-Sprint 8
+Sprint 10
 
 Current Task
 
-Monitoring
+Notifications
 
 ---
 
@@ -289,16 +289,16 @@ Manage domains and tunnels.
 
 Status
 
-⚪ Planned
+🟢 Completed
 
 Tasks
 
-- [ ] Domain List
-- [ ] DNS Records
-- [ ] Tunnel Status
-- [ ] SSL Status
+- [x] Domain List (Subdomain deployment input)
+- [x] DNS Records (Automated Traefik Reverse Proxy)
+- [x] Tunnel Status (Traefik network integration)
+- [x] SSL Status
 - [ ] Analytics
-- [ ] Automatic DNS Updates
+- [x] Automatic DNS Updates
 
 Deliverable
 

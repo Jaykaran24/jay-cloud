@@ -3,6 +3,9 @@
 All notable changes to Jay Cloud will be documented in this file.
 
 ### Added
+- [2026-07-11] DeploymentsPage: Added a `Subdomain` input field for custom URL routing during deployment, defaulting to `.jay24codes.me`.
+- [2026-07-11] deployments.controller.ts: Added Traefik auto-discovery labels to new Docker containers dynamically routing `Host(<subdomain>.jay24codes.me)` traffic to the specified exposed port.
+- [2026-07-11] docker-compose.traefik.yml: Spun up a Traefik reverse proxy container bound to port 80 and the Docker socket, acting as the ingress controller for the PaaS on `jay-cloud-net`.
 - [2026-07-11] DeploymentsPage: Added deployment lifecycle action buttons (Stop, Start, Restart, Delete) directly to the active deployment cards.
 - [2026-07-11] deployments.controller.ts: Added backend endpoints `/:id/stop`, `/:id/start`, `/:id/restart`, and `/:id/delete` using Dockerode to manage container lifecycles securely.
 - [2026-07-11] DeploymentsPage: New feature for Vercel/Render-style application hosting with segmented controls for deployment sources (Upload ZIP, GitHub Repository, Docker Image) and environment variable injection.
