@@ -56,11 +56,11 @@ Frontend Foundation
 
 Current Sprint
 
-Sprint 7
+Sprint 8
 
 Current Task
 
-MongoDB Manager
+Monitoring
 
 ---
 
@@ -235,15 +235,15 @@ Manage MongoDB without external tools.
 
 Status
 
-⚪ Planned
+🟢 Completed
 
 Tasks
 
-- [ ] Database List
-- [ ] Collections
-- [ ] Documents
+- [x] Database List
+- [x] Collections
+- [x] Documents
 - [ ] Query Builder
-- [ ] CRUD Operations
+- [x] CRUD Operations
 - [ ] Index Manager
 - [ ] Backup
 - [ ] Restore

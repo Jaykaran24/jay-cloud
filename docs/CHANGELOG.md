@@ -5,6 +5,10 @@ All notable changes to Jay Cloud will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- [2026-07-11] MongoPage: New MongoDB Manager dashboard page with a split sidebar layout to browse databases, collections, and a main pane for viewing JSON documents with auto-scroll and text-wrapping constraints.
+- [2026-07-11] mongo.service.ts: API fetch service connecting to backend Mongo endpoints, including robust handling of MongoDB `Not Authorized` JSON errors.
+- [2026-07-11] mongo.controller.ts: Native MongoDB driver endpoints (`listDatabases`, `listCollections`, `fetchDocuments`) extracting connections dynamically from Mongoose instance.
+- [2026-07-11] mongo.routes.ts: Three new GET routes for DB management, guarded by `requireAuth`.
 - [2026-07-09] StoragePage: Folder uploads using `webkitdirectory`, multi-select files/folders, bulk delete toolbar, and bulk move/copy modal.
 - [2026-07-09] storage.service.ts: Added endpoints for batch delete, move, and copy, and extended uploadFile with `relativePath`.
 - [2026-07-09] storage.controller.ts: Added backend endpoints `moveItems`, `copyItems` (using `fs.cp`), and `deleteBatch`.
@@ -38,6 +42,9 @@ All notable changes to Jay Cloud will be documented in this file.
 - [2026-07-06] ContactSection: Glowing orb background, GitHub button, email CTA
 
 ### Changed
+- [2026-07-11] app.ts: Mounted new `/api/mongo` router under requireAuth.
+- [2026-07-11] router.tsx: Replaced MongoPlaceholder with full MongoPage at `/dashboard/mongo` route.
+- [2026-07-11] DashboardLayout: Updated sidebar to include the Database (Mongo) tab with Lucide Database icon.
 - [2026-07-09] app.ts: Registered /api/storage route with requireAuth middleware and storageRoutes
 - [2026-07-09] router.tsx: Replaced StoragePlaceholder with full StoragePage at /dashboard/storage route
 - [2026-07-09] app.ts: Registered /api/monitoring route with requireAuth middleware and monitoringRoutes
@@ -58,6 +65,7 @@ All notable changes to Jay Cloud will be documented in this file.
 - [2026-07-06] PortfolioSection: Linked View Portfolio button
 
 ### Fixed
+- [2026-07-11] mongo.controller.ts: Fixed 500 crashes when accessing restricted MongoDB config/system collections (e.g. `system.sessions`) by safely catching MongoError code 13 and returning HTTP 403.
 - [2026-07-09] storage.service.ts: Fixed Type-Only Export syntax error by importing types explicitly for Vite/esbuild
 - [2026-07-09] storage.service.ts: Fixed `../` typo in fetch headers object spread
 - [2026-07-09] storage.routes.ts: Changed `req.body.path` to `req.query.path` to resolve Multer missing form data path issues before saving files
