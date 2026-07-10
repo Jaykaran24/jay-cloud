@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Rocket, UploadCloud, RefreshCw, Server, Activity, GitBranch, Package } from 'lucide-react';
+import { Rocket, UploadCloud, RefreshCw, Server, Activity, GitBranch, Package, Play, Square, Trash2 } from 'lucide-react';
 import { useAuth } from '@/features/auth/context/AuthContext';
-import { getDeployments, deployApp } from './services/deployments.service';
+import { getDeployments, deployApp, startDeployment, stopDeployment, restartDeployment, deleteDeployment } from './services/deployments.service';
 
 export default function DeploymentsPage() {
   const { token } = useAuth();
@@ -78,6 +78,21 @@ export default function DeploymentsPage() {
       setError(err.message);
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleAction = async (id: string, action: 'start' | 'stop' | 'restart' | 'delete') => {
+    try {
+      if (action === 'start') await startDeployment(id, token);
+      else if (action === 'stop') await stopDeployment(id, token);
+      else if (action === 'restart') await restartDeployment(id, token);
+      else if (action === 'delete') {
+        if (!confirm('Are you sure you want to delete this deployment?')) return;
+        await deleteDeployment(id, token);
+      }
+      await fetchDeployments();
+    } catch (err: any) {
+      setError(err.message);
     }
   };
 
@@ -249,6 +264,24 @@ export default function DeploymentsPage() {
                       <span className="text-muted-foreground">Uptime:</span>
                       <span className="text-xs">{app.status}</span>
                     </div>
+                  </div>
+                  
+                  <div className="mt-4 flex gap-2">
+                    {app.state === 'running' ? (
+                      <button onClick={() => handleAction(app.id, 'stop')} className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg border border-border hover:bg-yellow-500/10 hover:text-yellow-500 hover:border-yellow-500/30 text-xs font-medium transition-colors">
+                        <Square size={14} /> Stop
+                      </button>
+                    ) : (
+                      <button onClick={() => handleAction(app.id, 'start')} className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg border border-border hover:bg-green-500/10 hover:text-green-500 hover:border-green-500/30 text-xs font-medium transition-colors">
+                        <Play size={14} /> Start
+                      </button>
+                    )}
+                    <button onClick={() => handleAction(app.id, 'restart')} className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg border border-border hover:bg-blue-500/10 hover:text-blue-500 hover:border-blue-500/30 text-xs font-medium transition-colors">
+                      <RefreshCw size={14} /> Restart
+                    </button>
+                    <button onClick={() => handleAction(app.id, 'delete')} className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg border border-border hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30 text-xs font-medium transition-colors">
+                      <Trash2 size={14} /> Delete
+                    </button>
                   </div>
                   
                 </div>

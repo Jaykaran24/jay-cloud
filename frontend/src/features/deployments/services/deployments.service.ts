@@ -43,3 +43,27 @@ export async function deployApp(
   }
   return res.json();
 }
+
+export async function stopDeployment(id: string, token: string | null): Promise<any> {
+  const res = await authFetch(`/api/deployments/${id}/stop`, token, { method: 'POST' });
+  if (!res.ok) throw new Error('Failed to stop deployment');
+  return res.json();
+}
+
+export async function startDeployment(id: string, token: string | null): Promise<any> {
+  const res = await authFetch(`/api/deployments/${id}/start`, token, { method: 'POST' });
+  if (!res.ok) throw new Error('Failed to start deployment');
+  return res.json();
+}
+
+export async function restartDeployment(id: string, token: string | null): Promise<any> {
+  const res = await authFetch(`/api/deployments/${id}/restart`, token, { method: 'POST' });
+  if (!res.ok) throw new Error('Failed to restart deployment');
+  return res.json();
+}
+
+export async function deleteDeployment(id: string, token: string | null): Promise<any> {
+  const res = await authFetch(`/api/deployments/${id}`, token, { method: 'DELETE' });
+  if (!res.ok) throw new Error('Failed to delete deployment');
+  return res.json();
+}

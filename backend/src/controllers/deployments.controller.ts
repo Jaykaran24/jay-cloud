@@ -101,3 +101,47 @@ export async function getDeployments(_req: Request, res: Response): Promise<void
     res.status(500).json({ error: 'Failed to list deployments' });
   }
 }
+
+export async function stopDeployment(req: Request, res: Response): Promise<void> {
+  try {
+    const id = req.params.id as string;
+    const container = docker.getContainer(id);
+    await container.stop();
+    res.json({ message: 'Deployment stopped' });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Failed to stop deployment' });
+  }
+}
+
+export async function startDeployment(req: Request, res: Response): Promise<void> {
+  try {
+    const id = req.params.id as string;
+    const container = docker.getContainer(id);
+    await container.start();
+    res.json({ message: 'Deployment started' });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Failed to start deployment' });
+  }
+}
+
+export async function restartDeployment(req: Request, res: Response): Promise<void> {
+  try {
+    const id = req.params.id as string;
+    const container = docker.getContainer(id);
+    await container.restart();
+    res.json({ message: 'Deployment restarted' });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Failed to restart deployment' });
+  }
+}
+
+export async function deleteDeployment(req: Request, res: Response): Promise<void> {
+  try {
+    const id = req.params.id as string;
+    const container = docker.getContainer(id);
+    await container.remove({ force: true });
+    res.json({ message: 'Deployment deleted' });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Failed to delete deployment' });
+  }
+}
